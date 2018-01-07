@@ -1,8 +1,7 @@
 <template>
-  <div>
-    <h2>aqui</h2>
-    <layout-logged>teste</layout-logged>
-  </div>
+    <layout-logged>
+      <router-view/>
+    </layout-logged>
 </template>
 
 <script>

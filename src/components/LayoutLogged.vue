@@ -15,24 +15,24 @@
         >
           <v-list-tile-action v-if="!item.children">
             <v-tooltip right>
-              <v-btn flat icon color="primary" slot="activator"><v-icon v-html="item.icon" color="primary"></v-icon></v-btn>
+              <v-btn flat icon color="primary" slot="activator" @click="goTo(item.to)" :key="item.title"><v-icon v-html="item.icon" color="primary"></v-icon></v-btn>
               <span>{{item.title}}</span>
             </v-tooltip>
           </v-list-tile-action>
           <v-list-tile-action v-else>
             <v-tooltip right>
               <!-- <v-btn flat icon color="primary" slot="activator"><v-icon v-html="item.icon" color="primary"></v-icon></v-btn> -->
-              <v-menu bottom left  slot="activator">
+              <v-menu bottom left open-on-hover slot="activator">
                 <v-btn icon slot="activator">
                   <v-icon color="primary">more_horiz</v-icon>
                 </v-btn>
                 <v-list>
                   <v-list-tile v-for="child in item.children" :key="child.title" @click="">
-                    <v-list-tile-title>{{ child.title }}</v-list-tile-title>
+                    <v-list-tile-title @click="goTo(child.to)">{{ child.title }}</v-list-tile-title>
                   </v-list-tile>
                 </v-list>
               </v-menu>
-              <span>{{item.title}} aqui</span>
+              <span>{{item.title}}</span>
             </v-tooltip>
           </v-list-tile-action>
         </v-list-tile>
@@ -50,7 +50,8 @@
       <v-container fluid>
         <v-slide-y-transition mode="out-in">
           <v-layout column align-center>
-            <img src="/public/v.png" alt="Vuetify.js" class="mb-5" />
+            <slot></slot>
+            <!-- <img src="/public/v.png" alt="Vuetify.js" class="mb-5" />
             <blockquote>
               &#8220;First, solve the problem. Then, write the code.&#8221;
               <v-tooltip right>
@@ -62,7 +63,7 @@
                   <em>&mdash;John Johnson</em>
                 </small>
               </footer>
-            </blockquote>
+            </blockquote> -->
           </v-layout>
         </v-slide-y-transition>
       </v-container>
@@ -96,17 +97,18 @@
         drawer: true,
         fixed: false,
         items: [
-          { icon: 'desktop_mac', title: 'Balcão' },
-          { icon: 'motorcycle', title: 'Delivery' },
-          { icon: 'view_carousel', title: 'Mesa' },
-          { icon: 'format_list_bulleted', title: 'Pedidos' },
+          { icon: 'home', title: 'Página inicial', to: '/' },
+          { icon: 'desktop_mac', title: 'Balcão', to: '/balcao' },
+          { icon: 'motorcycle', title: 'Delivery', to: '/delivery' },
+          { icon: 'view_carousel', title: 'Mesa', to: '/mesas' },
+          { icon: 'format_list_bulleted', title: 'Pedidos', to: '/pedidos' },
           {
             icon: 'more_horiz',
             title: 'Outros',
             children: [
-              { icon: 'format_list_bulleted', title: 'Produtos' },
-              { icon: 'format_list_bulleted', title: 'Categorias' },
-              { icon: 'format_list_bulleted', title: 'Abrir/Fechar Caixa' }
+              { icon: 'format_list_bulleted', title: 'Produtos', to: '/produtos' },
+              { icon: 'format_list_bulleted', title: 'Categorias', to: '/categorias' },
+              { icon: 'format_list_bulleted', title: 'Abrir/Fechar Caixa', to: '/caixa' }
             ]
           }
         ],
@@ -114,6 +116,11 @@
         right: true,
         rightDrawer: false,
         title: 'Capital PDV'
+      }
+    },
+    methods: {
+      goTo (page) {
+        this.$router.push(page)
       }
     }
   }
