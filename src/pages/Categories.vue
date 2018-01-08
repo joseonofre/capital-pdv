@@ -6,7 +6,7 @@
           color="green darken-4"
           dark
           block
-          @click="goTo()"
+          @click="goTo('categorias/novo')"
         >
           <v-icon>add</v-icon> Adicionar
         </v-btn>
@@ -17,12 +17,12 @@
         <v-card>
           <v-list two-line subheader>
             <template v-for="(item, i) in items">
-              <v-list-tile @click="">
+              <v-list-tile @click="goTo('categorias/editar/1')">
                 <v-list-tile-content>
                   <v-list-tile-title>{{item.title}}</v-list-tile-title>
                 </v-list-tile-content>
                 <v-list-tile-action>
-                  <v-btn flat icon color="primary" slot="activator">
+                  <v-btn flat icon color="primary" slot="activator" @click="goTo('categorias/editar/1')">
                     <v-icon>edit</v-icon>
                   </v-btn>
                   <v-btn flat icon color="red darken-4" slot="activator">
@@ -54,8 +54,8 @@
       }
     },
     methods: {
-      goTo() {
-        this.$router.push('categorias/novo');
+      goTo (page) {
+        this.$router.push(page)
       }
     }
   }

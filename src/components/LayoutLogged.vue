@@ -2,15 +2,15 @@
   <v-app>
     <v-navigation-drawer
       fixed
-      :mini-variant="miniVariant"
-      :clipped="clipped"
+      :mini-variant="this.$store.state.layout.config.miniVariant"
+      :clipped="this.$store.state.layout.config.clipped"
       v-model="drawer"
       app
     >
       <v-list>
         <v-list-tile 
           value="true"
-          v-for="(item, i) in items"
+          v-for="(item, i) in this.$store.state.layout.config.items"
           :key="i"
         >
           <v-list-tile-action v-if="!item.children">
@@ -38,9 +38,9 @@
         </v-list-tile>
       </v-list>
     </v-navigation-drawer>
-    <v-toolbar fixed app :clipped-left="clipped">
+    <v-toolbar fixed app :clipped-left="this.$store.state.layout.config.clipped">
       <v-toolbar-side-icon @click.stop="drawer = !drawer"></v-toolbar-side-icon>
-      <v-toolbar-title v-text="title"></v-toolbar-title>
+      <v-toolbar-title v-text="this.$store.state.layout.config.title"></v-toolbar-title>
       <v-spacer></v-spacer>
       <v-btn icon @click.stop="rightDrawer = !rightDrawer">
         <v-icon>menu</v-icon>
@@ -70,8 +70,8 @@
     </v-content>
     <v-navigation-drawer
       temporary
-      :right="right"
-      v-model="rightDrawer"
+      :right="this.$store.state.layout.config.right"
+      v-model="this.$store.state.layout.config.rightDrawer"
       fixed
     >
       <v-list>
@@ -83,40 +83,27 @@
         </v-list-tile>
       </v-list>
     </v-navigation-drawer>
-    <v-footer :fixed="fixed" app>
+    <v-footer :fixed="this.$store.state.layout.config.fixed" app>
       <span>&copy; 2017</span>
     </v-footer>
   </v-app>
 </template>
 
 <script>
+  import { mapGetters } from 'vuex'
   export default {
     data () {
       return {
-        clipped: false,
-        drawer: true,
-        fixed: false,
-        items: [
-          { icon: 'home', title: 'Página inicial', to: '/' },
-          { icon: 'desktop_mac', title: 'Balcão', to: '/balcao' },
-          { icon: 'motorcycle', title: 'Delivery', to: '/delivery' },
-          { icon: 'view_carousel', title: 'Mesa', to: '/mesas' },
-          { icon: 'format_list_bulleted', title: 'Pedidos', to: '/pedidos' },
-          {
-            icon: 'more_horiz',
-            title: 'Outros',
-            children: [
-              { icon: 'format_list_bulleted', title: 'Produtos', to: '/produtos' },
-              { icon: 'format_list_bulleted', title: 'Categorias', to: '/categorias' },
-              { icon: 'format_list_bulleted', title: 'Abrir/Fechar Caixa', to: '/caixa' }
-            ]
-          }
-        ],
-        miniVariant: true,
-        right: true,
-        rightDrawer: false,
-        title: 'Capital PDV'
+        // this.$store.state.layout.config,
+        // clipped: false,
+        // drawer: true,
+        rightDrawer: false
       }
+    },
+    computed: {
+      ...mapGetters({
+        drawer: 'layout/drawer'
+      })
     },
     methods: {
       goTo (page) {
